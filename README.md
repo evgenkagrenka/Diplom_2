@@ -47,7 +47,7 @@ Diplom_2/
 │ ├── init.py
 │ ├── conftest.py # Фикстуры Pytest
 │ ├── helpers.py # Вспомогательные функции
-│ ├── test_data.py # Тестовые данные и константы
+│ ├── data.py # Тестовые данные и константы
 │ ├── test_user_api.py # Тесты создания пользователя
 │ ├── test_user_login.py # Тесты авторизации
 │ ├── test_order_api.py # Тесты создания заказов
