@@ -9,11 +9,12 @@ from tests.data import ERROR_MESSAGES, INVALID_ORDER_DATA, EXPECTED_STATUS_CODES
 class TestOrderCreation:
     @allure.title("Создание заказа с авторизацией")
     def test_create_order_with_auth(
-        self, 
-        order_api: OrderAPI,
+        self,
         registered_user,
         valid_ingredients
     ):
+        order_api = OrderAPI(BASE_URL)
+
         _, token = registered_user
         
         response = order_api.create_order(valid_ingredients, token)
@@ -25,21 +26,23 @@ class TestOrderCreation:
 
     @allure.title("Создание заказа без авторизации")
     def test_create_order_without_auth(
-        self, 
-        order_api: OrderAPI,
+        self,
         valid_ingredients
     ):
+        order_api = OrderAPI(BASE_URL)
+
         response = order_api.create_order(valid_ingredients)
         
         assert response.status_code == EXPECTED_STATUS_CODES["order_unauthorized"]
 
     @allure.title("Создание заказа с ингредиентами")
     def test_create_order_with_ingredients(
-        self, 
-        order_api: OrderAPI,
+        self,
         registered_user,
         valid_ingredients
     ):
+        order_api = OrderAPI(BASE_URL)
+
         _, token = registered_user
         
         response = order_api.create_order(valid_ingredients, token)
@@ -55,9 +58,10 @@ class TestOrderCreation:
     @allure.title("Создание заказа без ингредиентов")
     def test_create_order_without_ingredients(
         self,
-        order_api: OrderAPI,
         registered_user
     ):
+        order_api = OrderAPI(BASE_URL)
+
         _, token = registered_user
         
         response = order_api.create_order([], token)
@@ -71,9 +75,10 @@ class TestOrderCreation:
     @allure.title("Создание заказа с неверным хешем ингредиентов")
     def test_create_order_with_invalid_ingredient_hash(
         self,
-        order_api: OrderAPI,
         registered_user
     ):
+        order_api = OrderAPI(BASE_URL)
+
         _, token = registered_user
         invalid_hashes = INVALID_ORDER_DATA["invalid_hashes"]
         

@@ -1,6 +1,7 @@
 import allure
 import pytest
 
+from tests.urls import BASE_URL
 from tests.api.user_api import UserAPI
 from tests.data import ERROR_MESSAGES, USER_FIELDS, EXPECTED_STATUS_CODES
 from tests.helpers import create_random_user_data
@@ -8,7 +9,8 @@ from tests.helpers import create_random_user_data
 
 class TestUserCreation:
     @allure.title("Создание уникального пользователя")
-    def test_create_unique_user_success(self, user_api: UserAPI, cleanup_user):
+    def test_create_unique_user_success(self, cleanup_user):
+        user_api = UserAPI(BASE_URL)
         user_data = create_random_user_data()
         
         response = user_api.create_user(user_data)
@@ -32,7 +34,8 @@ class TestUserCreation:
         cleanup_user(token)
 
     @allure.title("Создание уже зарегистрированного пользователя")  
-    def test_create_duplicate_user_fails(self, user_api: UserAPI, cleanup_user):
+    def test_create_duplicate_user_fails(self, cleanup_user):
+        user_api = UserAPI(BASE_URL)
         user_data = create_random_user_data()
         
         first_response = user_api.create_user(user_data)
@@ -50,7 +53,8 @@ class TestUserCreation:
 
     @allure.title("Создание пользователя без обязательного поля")
     @pytest.mark.parametrize("missing_field", USER_FIELDS)
-    def test_create_user_missing_field_fails(self, missing_field, user_api: UserAPI):
+    def test_create_user_missing_field_fails(self, missing_field):
+        user_api = UserAPI(BASE_URL)
         invalid_data = create_random_user_data()
         del invalid_data[missing_field]
         

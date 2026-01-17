@@ -9,10 +9,10 @@ from tests.data import ERROR_MESSAGES, EXPECTED_STATUS_CODES, INVALID_USERS
 class TestUserLogin:
     @allure.title("Вход под существующим пользователем")
     def test_login_existing_user_success(
-        self, 
-        user_api: UserAPI,
+        self,
         registered_user
     ):
+        user_api = UserAPI(BASE_URL)
         user_data, token = registered_user
         login_data = {
             "email": user_data["email"],
@@ -36,12 +36,12 @@ class TestUserLogin:
     @allure.title("Вход с неверным логином и паролем")
     @pytest.mark.parametrize("invalid_email, invalid_password, invalid_name", INVALID_USERS)
     def test_login_invalid_credentials_fails(
-        self, 
-        user_api: UserAPI,
+        self,
         invalid_email: str,
         invalid_password: str,
         invalid_name: str
     ):
+        user_api = UserAPI(BASE_URL)
         invalid_credentials = {
             "email": invalid_email,
             "password": invalid_password
